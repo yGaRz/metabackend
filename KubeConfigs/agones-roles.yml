@@ -1,0 +1,33 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: agones-sdk-access
+  namespace: agones-system
+rules:
+- apiGroups: [""]
+  resources: ["events"]
+  verbs: ["create", "patch"]
+- apiGroups: ["agones.dev"]
+  resources: ["gameservers"]
+  verbs: ["get", "list", "watch", "create", "delete", "update", "patch"]
+- apiGroups: [""]
+  resources: ["pods", "pods/log", "services", "endpoints"]
+  verbs: ["get", "list", "watch", "create", "delete", "update", "patch"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "delete", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: agones-sdk-access-binding
+  namespace: agones-system
+subjects:
+- kind: ServiceAccount
+  name: agones-sdk
+  namespace: agones-system
+roleRef:
+  kind: Role
+  name: agones-sdk-access
+  apiGroup: rbac.authorization.k8s.io
+

@@ -1,0 +1,77 @@
+{
+  "profiles": {
+    "dev": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SERVER_SECRET": "Super-secret-string",
+        "PG_CONNECTION": "Host=localhost;Database=neo_dao_backend;Username=postgres;Password=123",
+        "PURCHASE_RATE": "1,2",
+        "SALE_RATE": "0,6",
+        "AUCTION_LOT_COMMISSION_RATE": "0,15",
+        "FEE_FOR_LISTING_AUCTION_ITEM": "0,5"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:8081"
+    },
+    "dev-Amir": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SERVER_SECRET": "Super-secret-string",
+        "PG_CONNECTION": "Host=localhost;Port=5433;Database=neo_dao_db;User Id=postgres;Password=810947",
+        "SELF_ADDRESS": "https://localhost:80/whatever",
+        "APP_DEEPLINK": "app://whatever",
+        "PURCHASE_RATE": "1,2",
+        "SALE_RATE": "0,6",
+        "AUCTION_LOT_COMMISSION_RATE": "0,15",
+        "FEE_FOR_LISTING_AUCTION_ITEM": "0,5"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:8081"
+    },
+    "dev-damir": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SERVER_SECRET": "Super-secret-string",
+        "PG_CONNECTION": "Host=localhost;Port=5434;Database=neo_dao_backend;Username=postgres;Password=postgres",
+        "PURCHASE_RATE": "1,2",
+        "SALE_RATE": "0,6",
+        "AUCTION_LOT_COMMISSION_RATE": "0,15",
+        "FEE_FOR_LISTING_AUCTION_ITEM": "0,5",
+        "SELF_ADDRESS": "https://test.api.neodao.space",
+        "APP_DEEPLINK": "app://com.fourtaleproduction.metacity/auth/callback"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:8081"
+    },
+    "prod": {
+      "commandName": "Project",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://0.0.0.0:8081/",
+        "DOTNET_URLS": "http://0.0.0.0:8081/",
+        "ASPNETCORE_ENVIRONMENT": "Production",
+        "applicationUrl": "http://0.0.0.0:8081",
+        "SELF_ADDRESS": "https://api.neodao.space",
+        "APP_DEEPLINK": "app://com.fourtaleproduction.metacity/auth/callback",
+        "OM_FRONTEND_ADDRESS": "http://open-match-frontend.open-match.svc.cluster.local:50504",
+        "PURCHASE_RATE": "1,2",
+        "SALE_RATE": "0,6",
+        "AUCTION_LOT_COMMISSION_RATE": "0,15",
+        "FEE_FOR_LISTING_AUCTION_ITEM": "0,5"
+      },
+      "dotnetRunMessages": true
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:8081",
+      "sslPort": 443
+    }
+  }
+}

@@ -1,0 +1,23 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default  
+  name: gameserver-allocator
+rules:
+- apiGroups: ["allocation.agones.dev"]
+  resources: ["gameserverallocations"]
+  verbs: ["create", "get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gameserver-allocator-binding
+  namespace: default 
+subjects:
+- kind: ServiceAccount
+  name: default  
+  namespace: metacity 
+roleRef:
+  kind: Role
+  name: gameserver-allocator
+  apiGroup: rbac.authorization.k8s.io

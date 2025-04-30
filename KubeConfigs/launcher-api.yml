@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: launcher-api
+  namespace: metacity
+  labels:
+    app: launcher-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: launcher-api
+  template:
+    metadata:
+      labels:
+        app: launcher-api
+    spec:
+      containers:
+      - name: launcher-api
+        image: registry.digitalocean.com/metaforce/neodao-backend/launcher-api
+        ports:
+        - containerPort: 1337
+        env: 
+        - name: EXTERNAL_URL
+          value: /launcher 
+      imagePullSecrets:
+      - name: registry-metaforce
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: launcher-api
+  namespace: metacity
+  labels:
+    app: launcher-api
+spec:
+  selector:
+    app: launcher-api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 1337
+  type: NodePort

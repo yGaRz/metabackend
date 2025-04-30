@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: launcher-api-ingress
+  namespace: metacity
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: api.neodao.space
+    http:
+      paths:
+      - path: /launcher(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: launcher-api
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - api.neodao.space
+    secretName: tls-secret-prod

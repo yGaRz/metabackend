@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metacity-matchfunction
+  namespace: metacity
+  labels:
+    app: metacity
+    component: matchfunction
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metacity
+      component: matchfunction
+  template:
+    metadata:
+      name: metacity-matchfunction
+      namespace: metacity
+      labels:
+        app: metacity
+        component: matchfunction
+    spec:
+      containers:
+      - name: metacity-matchfunction
+        image: registry.digitalocean.com/metaforce/neodao-mmf:0.14
+        imagePullPolicy: Always
+      imagePullSecrets:
+      - name: registry-metaforce
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: metacity-matchfunction
+  namespace: metacity
+  labels:
+    app: metacity
+    component: matchfunction
+spec:
+  selector:
+    app: metacity
+    component: matchfunction
+  clusterIP: None
+  type: ClusterIP
+  ports:
+  - name: grpc
+    protocol: TCP
+    port: 50502

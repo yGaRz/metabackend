@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: graylog-ingress
+  namespace: metacity
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    # kubernetes.io/ingress.class: nginx
+spec:
+  ingressClassName: nginx  
+  tls:
+  - hosts:
+    - graylog.neodao.space
+    secretName: tls-secret-graylog
+  rules:
+  - host: graylog.neodao.space
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: graylog
+            port:
+              number: 9000

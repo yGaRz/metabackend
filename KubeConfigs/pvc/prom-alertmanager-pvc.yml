@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storage-prom-alertmanager-0
+  namespace: metrics
+  labels:
+    app.kubernetes.io/instance: prom
+    app.kubernetes.io/name: alertmanager
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: standard

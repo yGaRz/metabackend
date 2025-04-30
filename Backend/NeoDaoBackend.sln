@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34227.203
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeoDaoBackend", "NeoDaoBackend\NeoDaoBackend.csproj", "{CC6548EA-7C2F-498B-9644-88E31FBE1796}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeoDaoBackendTest", "NeoDaoBackendTest\NeoDaoBackendTest.csproj", "{88FD1FFD-A6E3-47BB-953D-99C94608A811}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{C1BC4D3A-C7EB-4089-A0A3-A0B5FC527236}"
+	ProjectSection(SolutionItems) = preProject
+		dockers\.env = dockers\.env
+		dockers\config.env = dockers\config.env
+		dockers\docker-compose.yml = dockers\docker-compose.yml
+		dockers\prometheus.yml = dockers\prometheus.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC6548EA-7C2F-498B-9644-88E31FBE1796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC6548EA-7C2F-498B-9644-88E31FBE1796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC6548EA-7C2F-498B-9644-88E31FBE1796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC6548EA-7C2F-498B-9644-88E31FBE1796}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88FD1FFD-A6E3-47BB-953D-99C94608A811}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88FD1FFD-A6E3-47BB-953D-99C94608A811}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88FD1FFD-A6E3-47BB-953D-99C94608A811}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88FD1FFD-A6E3-47BB-953D-99C94608A811}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C14A17BF-D0F0-4F97-9A13-DF0346A8DA06}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: metrics
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-test
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx  
+  tls:
+  - hosts:
+    - grafana.neodao.space
+    secretName: grafana-tls-secret
+  rules:
+  - host: grafana.neodao.space
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: grafana  
+            port:
+              number: 3000  

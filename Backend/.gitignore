@@ -1,0 +1,10 @@
+.vs/**
+.idea/**
+NeoDaoBackend/bin/**
+NeoDaoBackend/logs/**
+NeoDaoBackend/obj/**
+NeoDaoBackendTest/bin/**
+NeoDaoBackendTest/obj/**
+
+# Ignore EntityFrameworkCore target files
+Backend/obj/*.EntityFrameworkCore.targets

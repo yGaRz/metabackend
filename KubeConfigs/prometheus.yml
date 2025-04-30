@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prom-prometheus-server
+  namespace: metrics
+  labels:
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: prom
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/part-of: prometheus
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: v2.54.1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: server
+      app.kubernetes.io/instance: prom
+      app.kubernetes.io/name: prometheus
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: server
+        app.kubernetes.io/instance: prom
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: prometheus
+        app.kubernetes.io/part-of: prometheus
+        app.kubernetes.io/version: v2.54.1
+    spec:
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 65534:65534 /data && chmod -R 775 /data"]
+          volumeMounts:
+            - name: storage-volume
+              mountPath: /data
+          securityContext:
+            runAsUser: 0
+      containers:
+        - name: prometheus-server
+          image: quay.io/prometheus/prometheus:v2.54.1
+          args:
+            - '--storage.tsdb.retention.time=15d'
+            - '--config.file=/etc/config/prometheus.yml'
+            - '--storage.tsdb.path=/data'
+            - '--web.console.libraries=/etc/prometheus/console_libraries'
+            - '--web.console.templates=/etc/prometheus/consoles'
+            - '--web.enable-lifecycle'
+          ports:
+            - containerPort: 9090
+              protocol: TCP
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+            - name: storage-volume
+              mountPath: /data
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: 9090
+              scheme: HTTP
+            initialDelaySeconds: 30
+            timeoutSeconds: 10
+            periodSeconds: 15
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: 9090
+              scheme: HTTP
+            initialDelaySeconds: 30
+            timeoutSeconds: 4
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          resources: {}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: prom-prometheus-server
+            defaultMode: 420
+        - name: storage-volume
+          persistentVolumeClaim:
+            claimName: prom-prometheus-server
+      securityContext:
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+      serviceAccountName: prom-prometheus-server
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prom-prometheus-server
+  namespace: metrics
+  labels:
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: prom
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/part-of: prometheus
+    app.kubernetes.io/managed-by: Helm
+spec:
+  ports:
+    - name: web
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
+  selector:
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: prom
+  type: ClusterIP

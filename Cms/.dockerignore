@@ -1,0 +1,14 @@
+# Игнорирование всех файлов .env.local
+.env.local
+
+# Другие файлы и папки, которые можно игнорировать
+node_modules
+npm-debug.log
+yarn-error.log
+.DS_Store
+dist
+build
+.git
+.gitignore
+docker-compose.yml
+Dockerfile

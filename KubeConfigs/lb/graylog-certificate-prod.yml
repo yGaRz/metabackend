@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tls-secret-graylog
+  namespace: metacity
+spec:
+  secretName: tls-secret-graylog
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: graylog.neodao.space
+  dnsNames:
+  - graylog.neodao.space
+  duration: 2160h 
+  renewBefore: 360h 

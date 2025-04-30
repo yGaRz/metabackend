@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metacity-backend
+  namespace: metacity
+  labels:
+    app: metacity
+    component: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metacity
+      component: backend
+  template:
+    metadata:
+      name: metacity-backend
+      namespace: metacity
+      labels:
+        app: metacity
+        component: backend
+    spec:
+      containers:
+      - name: metacity-backend
+        image: registry.digitalocean.com/metaforce/backend:0.53a
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8081
+        env:
+        - name: ASPNETCORE_HTTP_PORTS
+          value: "8081"
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: config-map-backend
+              key: environment
+        - name: ASPNETCORE_URLS
+          value: "http://+:8081"
+        - name: PG_CONNECTION
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: pg-connection
+        - name: SELF_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: config-map-backend
+              key: self-address
+        - name: GRAPHQL_URI
+          valueFrom:
+            configMapKeyRef:
+              name: config-map-backend
+              key: graphql-uri
+        - name: SERVER_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: server-secret
+        - name: APP_DEEPLINK
+          value: "app://com.fourtaleproduction.metacity/auth/callback"
+        - name: OM_FRONTEND_ADDRESS
+          value: "http://open-match-frontend.open-match.svc.cluster.local:50504"
+        - name: PURCHASE_RATE
+          value: "1.2"
+        - name: SALE_RATE
+          value: "0.6"
+        - name: AUCTION_LOT_COMMISSION_RATE
+          value: '0.15'
+        - name: FEE_FOR_LISTING_AUCTION_ITEM
+          value: '0.5'
+        readinessProbe:
+          httpGet:
+            path: /api/public/ping
+            port: 8081
+          timeoutSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 60
+        livenessProbe:
+          httpGet:
+            path: /api/public/ping
+            port: 8081
+          timeoutSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 60
+      imagePullSecrets:
+      - name: registry-metaforce
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metacity-backend
+  namespace: metacity
+  labels:
+    app: metacity
+    component: backend
+spec:
+  selector:
+    app: metacity
+    component: backend
+  type: NodePort
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8081

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metacity-cms
+  namespace: metacity
+  labels:
+    app: metacity-cms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metacity-cms
+  template:
+    metadata:
+      labels:
+        app: metacity-cms
+    spec:
+      containers:
+      - name: metacity-cms
+        image: registry.digitalocean.com/metaforce/cms:06
+        ports:
+        - containerPort: 3000
+        env: 
+        - name: ref
+          value: "01" 
+      imagePullSecrets:
+      - name: registry-metaforce
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metacity-cms
+  namespace: metacity
+  labels:
+    app: metacity-cms
+spec:
+  selector:
+    app: metacity-cms
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: NodePort

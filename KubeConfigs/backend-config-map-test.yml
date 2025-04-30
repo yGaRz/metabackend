@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map-backend
+  namespace: metacity
+data:
+  environment: "Test"
+  self-address: "https://test.api.neodao.space"
+  graphql-uri: "https://zelik-1.market.metaforcespace.website/api/v1/graphql"

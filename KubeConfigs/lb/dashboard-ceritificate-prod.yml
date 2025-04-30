@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tls-secret-cms-prod
+  namespace: kubernetes-dashboard
+spec:
+  secretName: tls-secret-cms-prod
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: k8s.neodao.space
+  dnsNames:
+  - k8s.neodao.space
+  duration: 2160h 
+  renewBefore: 360h 

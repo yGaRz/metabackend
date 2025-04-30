@@ -1,0 +1,24 @@
+# agones-gameserver-role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: agones-gameserver-editor
+  namespace: default
+rules:
+- apiGroups: ["agones.dev"]
+  resources: ["gameservers"]
+  verbs: ["get", "list", "watch", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: agones-gameserver-editor-binding
+  namespace: default
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: metacity
+roleRef:
+  kind: Role
+  name: agones-gameserver-editor
+  apiGroup: rbac.authorization.k8s.io

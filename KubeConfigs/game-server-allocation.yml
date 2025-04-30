@@ -1,0 +1,16 @@
+# Этот конфиг не нужно аплаить!! Он нужен для проверки аллокации
+# kubectl create -f game-server-allocation.yml -o yaml
+apiVersion: "allocation.agones.dev/v1"
+kind: GameServerAllocation
+spec:
+  preferred:
+    - matchLabels:
+        agones.dev/fleet: neodao-mine
+        # agones.dev/sdk-available: "true" # this is important
+      gameServerState: Allocated # new state filter: allocate from Allocated servers
+      players:
+        minAvailable: 1
+        maxAvailable: 10
+  # metadata:
+  #   labels:
+  #     agones.dev/sdk-available: "false"

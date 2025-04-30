@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graylog
+  namespace: metacity
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: graylog
+  template:
+    metadata:
+      labels:
+        app: graylog
+    spec:
+      containers:
+      - name: graylog
+        image: graylog/graylog:4.3
+        env:
+        - name: GRAYLOG_HTTP_BIND_ADDRESS
+          value: "0.0.0.0:9000"  
+        - name: GRAYLOG_HTTP_EXTERNAL_URI
+          value: "http://graylog.metacity.svc.cluster.local:9000/"  
+        - name: GRAYLOG_PASSWORD_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: graylog-secrets
+              key: GRAYLOG_PASSWORD_SECRET
+        - name: GRAYLOG_ROOT_PASSWORD_SHA2
+          valueFrom:
+            secretKeyRef:
+              name: graylog-secrets
+              key: GRAYLOG_ROOT_PASSWORD_SHA2
+        - name: GRAYLOG_MONGODB_URI
+          value: "mongodb://mongodb:27017/graylog"  
+        - name: GRAYLOG_ELASTICSEARCH_HOSTS
+          value: "http://elasticsearch:9200"  
+        ports:
+        - containerPort: 9000  
+          protocol: TCP
+        - containerPort: 12201 
+          protocol: UDP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: graylog
+  namespace: metacity
+spec:
+  ports:
+    - port: 9000
+      name: http
+      protocol: TCP
+    - port: 12201
+      name: gelf
+      protocol: UDP
+  selector:
+    app: graylog
